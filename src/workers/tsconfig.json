@@ -1,0 +1,12 @@
+{
+    "extends": "../generic-tsconfig.json",
+    "include": ["**/*"],
+    "compilerOptions": {
+        "lib": [
+            "esnext",
+            "webworker"
+        ],
+        "rootDir": "./",
+        "outDir": "./sw",
+    },
+}

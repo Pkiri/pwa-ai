@@ -1,0 +1,10 @@
+{
+    "extends": "../generic-tsconfig.json",
+    "include": ["src", "types"],
+    "compilerOptions": {
+      "lib": ["esnext", "dom"],
+    },
+    "references": [
+      {"path": "../workers"}
+    ]
+  }

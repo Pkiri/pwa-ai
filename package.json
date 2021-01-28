@@ -1,4 +1,9 @@
 {
+  "name": "pwa-ai",
+  "version": "1.0.0",
+  "description": "",
+  "author": "Pkiri",
+  "license": "ISC",
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build",
@@ -10,6 +15,7 @@
     "canvas-confetti": "^1.2.0"
   },
   "devDependencies": {
+    "@microsoft/applicationinsights-core-js": "^2.5.11",
     "@snowpack/plugin-typescript": "^1.2.0",
     "@types/canvas-confetti": "^1.0.0",
     "@types/snowpack-env": "^2.3.2",

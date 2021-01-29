@@ -7,6 +7,8 @@
 ## Changes needed before start
 To build the typescript files, we need --build argument when calling tsc. --build argument does not work with --noemit argument. @snowpack/plugin-typescript automatically adds --noemit argument. For now removed it in the @snowpack/plugin-typescript/plugin.js.
 
+Add your application insights application key in file src\workers\worker.ts. Replace YOUR_APPLICATIONINSIGHTS_KEY with the instrumantation key of your application insights instance. 
+
 ## Typing issue
 ITelemetryItem defines tags as "Tags & Tags[]", but the api only accepts objects. Seems like typing is wrong. For now in the request we do not use tags property.
 

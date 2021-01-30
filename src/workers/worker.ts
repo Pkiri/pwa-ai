@@ -1,16 +1,34 @@
 // import { ApplicationInsights } from '@microsoft/applicationinsights-web'
+// import { ApplicationInsights } from '@microsoft/applicationinsights-web-basic'
 import type { ITelemetryItem } from '@microsoft/applicationinsights-core-js'
+// import { XMLHttpRequestPolyfill } from './xmlHttpRequestPolyfill'
+
+importScripts('/dist/workers/xmlHttpRequestPolyfill.js');
+declare var XMLHttpRequestPolyfill: any;
+self['XMLHttpRequest'] = XMLHttpRequestPolyfill;
+
+importScripts('https://az416426.vo.msecnd.net/next/aib.2.min.js');
+
+declare var Microsoft: any;
+
 
 // This file must have worker types, but not DOM types.
 // The global should be that of a service worker.
 
 // This fixes `self`'s type.
 declare var self: ServiceWorkerGlobalScope;
+
 export { };
 
 console.log(self.clients);
 
 const instrumentationKey = 'YOUR_APPLICATIONINSIGHTS_KEY';
+
+var appInsights = new Microsoft.ApplicationInsights.ApplicationInsights({ 
+  instrumentationKey: instrumentationKey, 
+  loggingLevelConsole: 2 ,
+  loggingLevelTelemetry: 2
+});
 
 function sendAiEvent(data: ITelemetryItem) {
   const url = 'https://dc.services.visualstudio.com/v2/track';
@@ -54,7 +72,15 @@ function getAiRequestData(url: string, response: Response): ITelemetryItem {
         measurements: {},
         success: response.ok,
       }
-    }
+    },
+    baseType: 'EventData',
+      baseData: {
+        ver: 2,
+        name: 'Url: ' + url,
+        properties: {},
+        measurements: {},
+        success: response.ok,
+      }
   }
 }
 
@@ -69,7 +95,11 @@ self.addEventListener('activate', (event: ExtendableEvent) => {
 self.addEventListener('fetch', (event: FetchEvent) => {
   console.log(event.request);
   event.respondWith(fetch(event.request).then((response) => {
-    sendAiEvent(getAiRequestData(event.request.url, response));
+    const data = getAiRequestData(event.request.url, response);
+    // sendAiEvent(data);
+    appInsights.track(data);
+    appInsights.flush();
+    console.log('test');
     return response;
   }).catch(error => {
     console.error('There has been a problem with your fetch operation:', error);

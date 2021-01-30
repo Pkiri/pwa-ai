@@ -12,6 +12,7 @@
     "lint": "prettier --check \"src/**/*.{ts,js}\""
   },
   "dependencies": {
+    "@microsoft/applicationinsights-web-basic": "^2.5.11",
     "canvas-confetti": "^1.2.0"
   },
   "devDependencies": {
